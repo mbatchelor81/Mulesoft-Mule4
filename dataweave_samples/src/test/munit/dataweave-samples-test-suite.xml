@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+      xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+        http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+        http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+    <munit:config name="dataweave-samples-test-suite.xml"/>
+
+    <munit:test name="json-to-xml-transform-test"
+                doc:id="test-json-to-xml"
+                description="Verify JSON-to-XML DataWeave transformation produces correct output">
+        <munit:behavior>
+            <munit-tools:mock-when processor="ee:transform" doc:id="b9d0918e-51b6-4b08-98d4-eda36917d40b">
+                <munit-tools:with-attributes>
+                    <munit-tools:with-attribute attributeName="doc:name" whereValue="Transform JSON TO ALL paload type"/>
+                </munit-tools:with-attributes>
+            </munit-tools:mock-when>
+            <set-payload value='#[%dw 2.0 output application/json --- {"empid": 101, "empname": "John Doe", "empsal": 50000}]'/>
+        </munit:behavior>
+        <munit:execution>
+            <ee:transform>
+                <ee:message>
+                    <ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+---
+emp: {
+    empid: payload.empid,
+    empname: payload.empname,
+    empsal: payload.empsal
+}]]></ee:set-payload>
+                </ee:message>
+            </ee:transform>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[payload.emp.empid]" is="#[MunitTools::equalTo('101')]"/>
+            <munit-tools:assert-that expression="#[payload.emp.empname]" is="#[MunitTools::equalTo('John Doe')]"/>
+            <munit-tools:assert-that expression="#[payload.emp.empsal]" is="#[MunitTools::equalTo('50000')]"/>
+        </munit:validation>
+    </munit:test>
+
+    <munit:test name="json-to-csv-transform-test"
+                doc:id="test-json-to-csv"
+                description="Verify JSON-to-CSV DataWeave transformation produces correct output">
+        <munit:behavior>
+            <set-payload value='#[%dw 2.0 output application/json --- {"empid": 202, "empname": "Jane Smith", "empsal": 75000}]'/>
+        </munit:behavior>
+        <munit:execution>
+            <ee:transform>
+                <ee:message>
+                    <ee:set-payload><![CDATA[%dw 2.0
+output application/csv headerLineNumber = 0, header = true
+---
+[{
+    empid: payload.empid as String,
+    empname: payload.empname,
+    empsal: payload.empsal as String
+}]]]></ee:set-payload>
+                </ee:message>
+            </ee:transform>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[payload[0].empid]" is="#[MunitTools::equalTo('202')]"/>
+            <munit-tools:assert-that expression="#[payload[0].empname]" is="#[MunitTools::equalTo('Jane Smith')]"/>
+        </munit:validation>
+    </munit:test>
+</mule>

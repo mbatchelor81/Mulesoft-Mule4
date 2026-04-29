@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+      xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+        http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+    <munit:config name="emp-sapi-test-suite.xml"/>
+
+    <http:request-config name="HTTP_Request_Config_Test">
+        <http:request-connection host="localhost" port="8081"/>
+    </http:request-config>
+
+    <munit:test name="emp-sapi-hello-flow-returns-200"
+                doc:id="test-hello-200"
+                description="Verify the /emp-sapi/hello endpoint returns HTTP 200">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="emp-sapiFlow"/>
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request method="GET" config-ref="HTTP_Request_Config_Test" path="/emp-sapi/hello"/>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]"/>
+        </munit:validation>
+    </munit:test>
+
+    <munit:test name="emp-sapi-flow-execution-test"
+                doc:id="test-flow-execution"
+                description="Verify the emp-sapiFlow processes successfully">
+        <munit:behavior>
+            <set-payload value="test"/>
+        </munit:behavior>
+        <munit:execution>
+            <flow-ref name="emp-sapiFlow"/>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+        </munit:validation>
+    </munit:test>
+</mule>

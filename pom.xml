@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.mycompany</groupId>
+    <artifactId>mulesoft-mule4-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>MuleSoft Mule 4 - Parent Aggregator</name>
+    <description>Aggregator POM to build all Mule 4 sample projects</description>
+
+    <modules>
+        <module>emp-sapi</module>
+        <module>test-flows</module>
+        <module>emp-sapi-v1</module>
+        <module>jms-app</module>
+        <module>jms-push-operations</module>
+        <module>ftp-app</module>
+        <module>database-to-ftp-excel</module>
+        <module>emp-csv-database</module>
+        <module>consume-json-rest-service</module>
+        <module>rest-over-jms</module>
+        <module>prop-demo</module>
+        <module>secure-prop-demo</module>
+        <module>error-handling-demo</module>
+        <module>emp-onboard-api</module>
+        <module>dataweave_samples</module>
+        <module>mule-scope-demo</module>
+        <module>ws-consumer-demo</module>
+        <!-- soap-service excluded: requires MuleSoft Enterprise repo credentials
+             for mule-soapkit-cxf transitive dependency -->
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>anypoint-exchange-v2</id>
+            <name>Anypoint Exchange</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v2/maven</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>mulesoft-releases</id>
+            <name>MuleSoft Releases Repository</name>
+            <url>https://repository.mulesoft.org/releases/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mulesoft-releases</id>
+            <name>MuleSoft Releases</name>
+            <url>https://repository.mulesoft.org/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
