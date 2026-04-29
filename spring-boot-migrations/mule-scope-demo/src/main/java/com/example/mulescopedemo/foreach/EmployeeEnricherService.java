@@ -33,7 +33,7 @@ public class EmployeeEnricherService {
                 results.add(Map.of("empId", id, "data", response != null ? response : "null"));
             } catch (Exception e) {
                 log.warn("Error enriching employee {}: {} (on-error-continue)", id, e.getMessage());
-                results.add(Map.of("empId", id, "error", e.getMessage()));
+                results.add(Map.of("empId", id, "error", e.getMessage() != null ? e.getMessage() : e.getClass().getName()));
             }
         }
 

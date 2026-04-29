@@ -54,6 +54,7 @@ public class FtpReaderService {
                 }
             }
 
+            ftpClient.completePendingCommand();
             ftpClient.logout();
         } catch (Exception e) {
             log.error("Error reading file from FTP: {}", e.getMessage());

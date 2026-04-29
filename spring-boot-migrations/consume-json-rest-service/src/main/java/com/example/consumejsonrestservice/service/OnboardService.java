@@ -30,7 +30,7 @@ public class OnboardService {
 
         Map<String, Object> financePayload = Map.of(
             "emp_id", saved.getEmpId(),
-            "emp_name", saved.getEmpName(),
+            "emp_name", saved.getEmpName() != null ? saved.getEmpName() : "",
             "emp_sal", saved.getEmpSal() != null ? saved.getEmpSal() : 0.0
         );
 

@@ -2,6 +2,7 @@ package com.example.mulescopedemo.parallel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -15,16 +16,18 @@ public class AddEmployeeService {
     private static final Logger log = LoggerFactory.getLogger(AddEmployeeService.class);
 
     private final JdbcTemplate jdbcTemplate;
+    private final AddEmployeeService self;
 
-    public AddEmployeeService(JdbcTemplate jdbcTemplate) {
+    public AddEmployeeService(JdbcTemplate jdbcTemplate, @Lazy AddEmployeeService self) {
         this.jdbcTemplate = jdbcTemplate;
+        this.self = self;
     }
 
     public void addEmployeeToAllTables(Map<String, Object> employee) {
-        CompletableFuture<Void> master = insertAsync("emp_masterv2", employee);
-        CompletableFuture<Void> fin = insertAsync("emp_fin_master", employee);
-        CompletableFuture<Void> appr = insertAsync("emp_appr_master", employee);
-        CompletableFuture<Void> backup = insertAsync("emp_backup", employee);
+        CompletableFuture<Void> master = self.insertAsync("emp_masterv2", employee);
+        CompletableFuture<Void> fin = self.insertAsync("emp_fin_master", employee);
+        CompletableFuture<Void> appr = self.insertAsync("emp_appr_master", employee);
+        CompletableFuture<Void> backup = self.insertAsync("emp_backup", employee);
 
         CompletableFuture.allOf(master, fin, appr, backup).join();
         log.info("Employee inserted into all 4 tables in parallel");
