@@ -19,6 +19,11 @@ if [ -z "$JAR" ]; then
     JAR=$(find "$PROJECT_ROOT/$PROJECT/target" -name "*-mule-application.jar" | head -1)
 fi
 
+if [ -z "$JAR" ]; then
+    echo "ERROR: Could not find *-mule-application.jar in $PROJECT_ROOT/$PROJECT/target" >&2
+    exit 1
+fi
+
 CONTAINER_NAME="mule4-${PROJECT}"
 
 echo "Stopping any existing container '$CONTAINER_NAME'..."
