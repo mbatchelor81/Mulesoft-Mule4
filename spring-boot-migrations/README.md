@@ -148,6 +148,7 @@ CREATE TABLE emp_appr_master (
 CREATE TABLE emp_backup (
     emp_id        NUMBER,
     emp_name      VARCHAR2(100),
+    emp_status    VARCHAR2(1),
     emp_salary    NUMBER(10,2),
     increment_sal NUMBER(10,2)
 );
