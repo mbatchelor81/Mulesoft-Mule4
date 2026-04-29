@@ -1,0 +1,15 @@
+server:
+  port: 8093
+
+spring:
+  activemq:
+    broker-url: ${ACTIVEMQ_BROKER_URL:tcp://localhost:32768}
+    user: ${ACTIVEMQ_USER:admin}
+    password: ${ACTIVEMQ_PASSWORD:admin}
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+logging:
+  level:
+    com.example.jmspushoperations: INFO
