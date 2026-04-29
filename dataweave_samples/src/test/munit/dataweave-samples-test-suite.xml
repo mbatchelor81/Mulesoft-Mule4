@@ -38,9 +38,9 @@ emp: {
             </ee:transform>
         </munit:execution>
         <munit:validation>
-            <munit-tools:assert-that expression="#[payload.emp.empid]" is="#[MunitTools::equalTo(101)]"/>
+            <munit-tools:assert-that expression="#[payload.emp.empid]" is="#[MunitTools::equalTo('101')]"/>
             <munit-tools:assert-that expression="#[payload.emp.empname]" is="#[MunitTools::equalTo('John Doe')]"/>
-            <munit-tools:assert-that expression="#[payload.emp.empsal]" is="#[MunitTools::equalTo(50000)]"/>
+            <munit-tools:assert-that expression="#[payload.emp.empsal]" is="#[MunitTools::equalTo('50000')]"/>
         </munit:validation>
     </munit:test>
 

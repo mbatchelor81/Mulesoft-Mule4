@@ -13,7 +13,7 @@
     <munit:config name="emp-sapi-test-suite.xml"/>
 
     <http:request-config name="HTTP_Request_Config_Test">
-        <http:request-connection host="0.0.0.0" port="8081"/>
+        <http:request-connection host="localhost" port="8081"/>
     </http:request-config>
 
     <munit:test name="emp-sapi-hello-flow-returns-200"
