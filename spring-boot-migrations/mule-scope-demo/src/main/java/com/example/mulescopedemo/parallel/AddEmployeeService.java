@@ -8,12 +8,16 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @Service
 public class AddEmployeeService {
 
     private static final Logger log = LoggerFactory.getLogger(AddEmployeeService.class);
+    private static final Set<String> ALLOWED_TABLES = Set.of(
+        "emp_masterv2", "emp_fin_master", "emp_appr_master", "emp_backup"
+    );
 
     private final JdbcTemplate jdbcTemplate;
     private final AddEmployeeService self;
@@ -35,6 +39,9 @@ public class AddEmployeeService {
 
     @Async
     public CompletableFuture<Void> insertAsync(String tableName, Map<String, Object> employee) {
+        if (!ALLOWED_TABLES.contains(tableName)) {
+            throw new IllegalArgumentException("Invalid table name: " + tableName);
+        }
         log.info("Inserting into {}", tableName);
         jdbcTemplate.update(
             "INSERT INTO " + tableName + " (emp_id, emp_name, emp_status) VALUES (?, ?, ?)",

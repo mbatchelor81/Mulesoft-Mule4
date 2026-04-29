@@ -43,18 +43,19 @@ public class FtpReaderService {
 
             log.info("Connected to FTP server at {}:{}", ftpHost, ftpPort);
 
-            try (InputStream is = ftpClient.retrieveFileStream(ftpFilePath)) {
-                if (is != null) {
+            InputStream is = ftpClient.retrieveFileStream(ftpFilePath);
+            if (is != null) {
+                try (is) {
                     String content = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))
                         .lines()
                         .collect(Collectors.joining("\n"));
                     log.info("File content from '{}':\n{}", ftpFilePath, content);
-                } else {
-                    log.warn("File '{}' not found on FTP server", ftpFilePath);
                 }
+                ftpClient.completePendingCommand();
+            } else {
+                log.warn("File '{}' not found on FTP server", ftpFilePath);
             }
 
-            ftpClient.completePendingCommand();
             ftpClient.logout();
         } catch (Exception e) {
             log.error("Error reading file from FTP: {}", e.getMessage());

@@ -27,7 +27,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleDataAccess(DataAccessException ex) {
         log.error("Database error: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(Map.of("Status", 500, "Message", ex.getMostSpecificCause().getMessage()));
+            .body(Map.of("Status", 500, "Message",
+                ex.getMostSpecificCause().getMessage() != null ? ex.getMostSpecificCause().getMessage() : "Database error"));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
