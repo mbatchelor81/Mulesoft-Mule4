@@ -1,0 +1,15 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+ftp:
+  host: ${FTP_HOST:localhost}
+  port: ${FTP_PORT:21}
+  username: ${FTP_USERNAME:ftpuser}
+  password: ${FTP_PASSWORD:ftpuser}
+  file-path: ${FTP_FILE_PATH:Employees.csv}
+
+logging:
+  level:
+    com.example.ftpapp: INFO

@@ -1,0 +1,20 @@
+server:
+  port: 8083
+
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-sources:
+            - endpoint: ${AZURE_KEYVAULT_ENDPOINT:https://your-keyvault-name.vault.azure.net/}
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+db:
+  password: ${db-password:default-password}
+
+logging:
+  level:
+    com.example.securepropdemo: INFO

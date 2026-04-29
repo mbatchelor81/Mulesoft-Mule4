@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim-faststart
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: oracle
+      APP_USER: appuser
+      APP_USER_PASSWORD: appuser
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  activemq:
+    image: rmohr/activemq:5.15.9
+    ports:
+      - "61616:61616"
+      - "32768:61616"
+      - "8161:8161"
+    environment:
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+    volumes:
+      - activemq-data:/opt/activemq/data
+
+  ftp-server:
+    image: fauria/vsftpd
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    environment:
+      FTP_USER: ftpuser
+      FTP_PASS: ftpuser
+      PASV_ADDRESS: 127.0.0.1
+      PASV_MIN_PORT: 21100
+      PASV_MAX_PORT: 21110
+    volumes:
+      - ftp-data:/home/vsftpd
+
+volumes:
+  oracle-data:
+  activemq-data:
+  ftp-data:

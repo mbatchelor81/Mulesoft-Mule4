@@ -1,0 +1,25 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:oracle:thin:@localhost:1521/ORCLCDB}
+    username: ${DB_USERNAME:system}
+    password: ${DB_PASSWORD:oracle}
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+
+csv:
+  file:
+    path: ${CSV_FILE_PATH:employees.csv}
+
+logging:
+  level:
+    com.example.empcsvdatabase: INFO

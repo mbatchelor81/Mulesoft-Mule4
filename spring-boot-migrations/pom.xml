@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.example.migration</groupId>
+    <artifactId>spring-boot-migrations</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Spring Boot Migrations - Parent</name>
+    <description>Parent POM for MuleSoft to Spring Boot 3.2.x migrations</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <spring-cloud-azure.version>5.10.0</spring-cloud-azure.version>
+        <spring-retry.version>2.0.5</spring-retry.version>
+        <spring-integration-ftp.version>6.2.3</spring-integration-ftp.version>
+        <springdoc.version>2.4.0</springdoc.version>
+        <ojdbc.version>23.3.0.23.09</ojdbc.version>
+        <poi.version>5.2.5</poi.version>
+
+        <commons-net.version>3.10.0</commons-net.version>
+        <guava.version>33.0.0-jre</guava.version>
+    </properties>
+
+    <modules>
+        <module>common-security</module>
+        <module>emp-sapi</module>
+        <module>prop-demo</module>
+        <module>secure-prop-demo</module>
+        <module>test-flows</module>
+        <module>dataweave-samples</module>
+        <module>emp-hr-sapi</module>
+        <module>ftp-app</module>
+        <module>emp-sapi-v1</module>
+        <module>jms-app</module>
+        <module>soap-service</module>
+        <module>ws-consumer-demo</module>
+        <module>emp-csv-database</module>
+        <module>database-to-ftp-excel</module>
+        <module>emp-onboard-api</module>
+        <module>jms-push-operations</module>
+        <module>consume-json-rest-service</module>
+        <module>error-handling-demo</module>
+        <module>rest-over-jms</module>
+        <module>mule-scope-demo</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.azure.spring</groupId>
+                <artifactId>spring-cloud-azure-dependencies</artifactId>
+                <version>${spring-cloud-azure.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.oracle.database.jdbc</groupId>
+                <artifactId>ojdbc11</artifactId>
+                <version>${ojdbc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.retry</groupId>
+                <artifactId>spring-retry</artifactId>
+                <version>${spring-retry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-ftp</artifactId>
+                <version>${spring-integration-ftp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${commons-net.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

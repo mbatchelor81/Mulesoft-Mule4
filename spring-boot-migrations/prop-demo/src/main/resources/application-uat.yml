@@ -1,0 +1,9 @@
+app:
+  http:
+    port: 8081
+    path: read-prop
+  db:
+    host: localhost
+    port: 1521
+    username: "sys as sysdba of UAT"
+    password: "${DB_PASSWORD:password}"

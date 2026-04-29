@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: Employee HR SAPI
+  description: To add Employee to HR system - migrated from RAML 1.0
+  version: v1
+servers:
+  - url: /emp-hr-sapi/v1
+paths:
+  /add-employee:
+    post:
+      summary: Add employee to the system
+      operationId: addEmployee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmployeeRequest'
+      responses:
+        '201':
+          description: Employee created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateEmployeeResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fetch-employee/{empId}:
+    get:
+      summary: Fetch employee by ID
+      operationId: fetchEmployee
+      parameters:
+        - name: empId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Employee found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateEmployeeRequest'
+        '404':
+          description: Employee not found
+  /update-employee:
+    put:
+      summary: Update employee
+      operationId: updateEmployee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmployeeRequest'
+      responses:
+        '200':
+          description: Employee updated
+  /delete-employee/{empId}:
+    delete:
+      summary: Delete employee by ID
+      operationId: deleteEmployee
+      parameters:
+        - name: empId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Employee deleted
+
+components:
+  schemas:
+    CreateEmployeeRequest:
+      type: object
+      required:
+        - empID
+        - empName
+      properties:
+        empID:
+          type: integer
+          description: Employee identification ID
+          example: 1
+        empName:
+          type: string
+          description: Employee name
+          example: Gaurav
+        empAddress:
+          type: string
+          description: Employee address
+          example: Australia
+        empStatus:
+          type: string
+          description: Employee status at the company
+          example: A
+    CreateEmployeeResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 201
+        message:
+          type: string
+          example: Created
+        description:
+          type: string
+          example: Employee created
+        datetime:
+          type: string
+          example: "10/10/2020 14:12"
+        transactionId:
+          type: string
+          example: "213sfsadf-12312sadf-3123sdfasd"
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        description:
+          type: string
+        datetime:
+          type: string
+        transactionId:
+          type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize
+          tokenUrl: https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
+          scopes:
+            Employee.ReadWrite: Read and write employee data
+
+security:
+  - bearerAuth: []
