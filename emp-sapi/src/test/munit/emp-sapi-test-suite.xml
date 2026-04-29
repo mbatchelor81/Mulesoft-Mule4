@@ -19,6 +19,9 @@
     <munit:test name="emp-sapi-hello-flow-returns-200"
                 doc:id="test-hello-200"
                 description="Verify the /emp-sapi/hello endpoint returns HTTP 200">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="emp-sapiFlow"/>
+        </munit:enable-flow-sources>
         <munit:execution>
             <http:request method="GET" config-ref="HTTP_Request_Config_Test" path="/emp-sapi/hello"/>
         </munit:execution>
